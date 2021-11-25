@@ -74,14 +74,14 @@ def getNewLayer(M, layer_prices_paths):
     else:
       stop_flags.append(False)
     price_and_path_array = getLayerMinPath(M, currentLayerIndeces, destination)
-    print('current path is ', getReadablePath(path), cur_price)
+    print('current path is ', getReadablePath(path), abs(cur_price))
     if len(currentLayerIndeces) == 0:
-      print('path is finished')
+      print('path is unreachable or finished')
     else:
       print('path reachable from vertexes ', getReadablePath(currentLayerIndeces))
     for i in range(len(price_and_path_array)):
       new_price_and_path = (price_and_path_array[i][0] + cur_price, price_and_path_array[i][1] + path)
-      print('new price and path is', new_price_and_path[0], getReadablePath(new_price_and_path[1]))
+      print('new price and path is', abs(new_price_and_path[0]), getReadablePath(new_price_and_path[1]))
       price_and_path.append(new_price_and_path)
   if False not in stop_flags:
     return layer_prices_paths, True
@@ -103,7 +103,7 @@ def getOptimalPath(M, is_max = False):
     if price_and_path[0] < min_value:
       min_value, result_path = price_and_path[0], price_and_path[1]
   result_path.append(destination)
-  print("result", min_value, getReadablePath(result_path))
+  return min_value, result_path
 
-
-getOptimalPath(M, True)
+min_value, path = getOptimalPath(M, True)
+print("result", abs(min_value), getReadablePath(path))
